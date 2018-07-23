@@ -208,4 +208,5 @@ source '/usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/path.zsh.in
 source '/usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/completion.zsh.inc'
 
 source ~/.zshrc.local
+export PYENV_VERSION=3.7.0
 eval "$(pyenv init -)"
