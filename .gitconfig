@@ -1,0 +1,42 @@
+[include]
+  path = ~/.gitconfig-local
+
+[user]
+	name = bschuedzig
+	email = benjamin.schuedzig@mantro.net
+[push]
+  default = matching
+[alias]
+  slog = log --graph --decorate --pretty=oneline --abbrev-commit --all -n30
+  s = status
+  ls = log --pretty=format:\"%C(yellow)%h%C(cyan)%d %Creset%s - %C(yellow) %cn\" --graph
+  ll = log --pretty=format:\"%C(yellow)%h%C(cyan)%d %Creset%s%C(yellow) [%cn]\" --decorate --numstat
+  c = commit
+  b = branch
+  co = checkout
+  r = remote
+  a = add
+  aa = add -A
+  lls = log --pretty=format:\"%C(yellow)%h%C(cyan)%d %Creset%s - %C(yellow) %cn\" --graph --all
+  lll = log --pretty=format:\"%C(yellow)%h%C(cyan)%d %Creset%s%C(yellow) [%cn]\" --decorate --numstat --all --graph
+  cat = diff --name-status
+  test = !echo $
+
+[color]
+	ui = true
+[core]
+	editor = vim
+	excludesfile = /Users/ben/.gitignore_global
+[difftool "sourcetree"]
+	cmd = opendiff \"$LOCAL\" \"$REMOTE\"
+	path = 
+[mergetool "sourcetree"]
+	cmd = /Applications/SourceTree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
+	trustExitCode = true
+[commit]
+	template = /Users/ben/.stCommitMsg
+[filter "lfs"]
+	process = git-lfs filter-process
+	required = true
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f
