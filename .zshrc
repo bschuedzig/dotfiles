@@ -81,7 +81,7 @@ function ssh_connect() {
     # filter all ssh entries from the .zsh_history file and add them as well
     cat ~/.zsh_history | grep ":0;sscc" >> $TEMP_FILE 
     # invoke hh with that file
-    HISTFILE=$TEMPFILE hh
+    HISTFILE=$TEMP_FILE hh
     return 0
   fi
 
