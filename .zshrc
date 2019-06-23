@@ -134,6 +134,7 @@ export PATH="$HOME/.yarn/bin:$PATH"
 export PATH="$PATH:/usr/local/opt/inetutils/libexec/gnubin"
 export PATH="$PATH:/Users/ben/Library/Android/sdk/platform-tools/"
 export PATH="$PATH:/Users/ben/Library/Android/sdk/emulator"
+export PATH="$PATH:/Users/ben/.local/bin"
 export GOOGLE_APPLICATION_CREDENTIALS="/Users/ben/.google/werkerapp.json"
 
 export GOPATH="$HOME/go"
@@ -251,9 +252,6 @@ eval "$(pyenv init -)"
 export LC_ALL=en_US.UTF-8
 export LANG=en_US.UTF-8
 
-# tabtab source for jhipster package
-# uninstall by removing these lines or running `tabtab uninstall jhipster`
-[[ -f /Users/ben/git/infinity/pinfinity-backend-develop/node_modules/tabtab/.completions/jhipster.zsh ]] && . /Users/ben/git/infinity/pinfinity-backend-develop/node_modules/tabtab/.completions/jhipster.zsh
 [ -s "/Users/ben/.jabba/jabba.sh" ] && source "/Users/ben/.jabba/jabba.sh"
 
 # The next line updates PATH for the Google Cloud SDK.
