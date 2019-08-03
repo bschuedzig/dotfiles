@@ -134,6 +134,7 @@ export PATH="$HOME/.yarn/bin:$PATH"
 export PATH="$PATH:/usr/local/opt/inetutils/libexec/gnubin"
 export PATH="$PATH:/Users/ben/Library/Android/sdk/platform-tools/"
 export PATH="$PATH:/Users/ben/Library/Android/sdk/emulator"
+export PATH="$PATH:/Users/ben/.local/bin"
 export GOOGLE_APPLICATION_CREDENTIALS="/Users/ben/.google/werkerapp.json"
 
 export GOPATH="$HOME/go"
@@ -254,8 +255,9 @@ export LSCOLORS=ExFxCxDxBxegedabagacad
 
 setopt no_rm_star_silent
 
-export NVM_DIR="/Users/ben/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
+export NVM_DIR="$HOME/.nvm"
+  [ -s "/usr/local/opt/nvm/nvm.sh" ] && . "/usr/local/opt/nvm/nvm.sh"  # This loads nvm
+  [ -s "/usr/local/opt/nvm/etc/bash_completion" ] && . "/usr/local/opt/nvm/etc/bash_completion"  # This loads nvm bash_completion
 
 export HOMEBREW_BREWFILE="/Users/ben/Dropbox (Personal)/config/Brewfile"
 
@@ -266,14 +268,10 @@ fi
 source ~/.zshrc.local
 export PYENV_VERSION=3.6.0
 eval "$(pyenv init -)"
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion" # This loads nvm bash_completion
 
 export LC_ALL=en_US.UTF-8
 export LANG=en_US.UTF-8
 
-# tabtab source for jhipster package
-# uninstall by removing these lines or running `tabtab uninstall jhipster`
-[[ -f /Users/ben/git/infinity/pinfinity-backend-develop/node_modules/tabtab/.completions/jhipster.zsh ]] && . /Users/ben/git/infinity/pinfinity-backend-develop/node_modules/tabtab/.completions/jhipster.zsh
 [ -s "/Users/ben/.jabba/jabba.sh" ] && source "/Users/ben/.jabba/jabba.sh"
 
 # The next line updates PATH for the Google Cloud SDK.
