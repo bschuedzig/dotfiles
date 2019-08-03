@@ -144,6 +144,8 @@ export ANDROID_TOOLS="/Users/ben/Library/Android/sdk/tools/"
 export ANDROID_PLATFORM_TOOLS="/Users/ben/Library/Android/sdk/platform-tools/"
 export PATH=$PATH:$ANDROID_HOME:$ANDROID_TOOLS:$ANDROID_PLATFORM_TOOLS
 
+export PATH="$PATH:/Users/ben/git/emscripten-core/emsdk:/Users/ben/git/emscripten-core/emsdk/fastcomp/emscripten"
+
 #   _   _ _____ ___ _     ___ _____ ___ _____ ____
 #  | | | |_   _|_ _| |   |_ _|_   _|_ _| ____/ ___|
 #  | | | | | |  | || |    | |  | |  | ||  _| \___ \
@@ -166,6 +168,24 @@ awsprofile() {
 		echo "AWS_PROFILE set to $1"
 	fi
 
+}
+
+kubeconfig() {
+	local KUBEDIR="$HOME/.kube"
+
+	if [[ -z "$1" ]]; then
+		find $KUBEDIR -maxdepth 1 -type f | xargs basename
+		return 0
+	fi
+
+	KUBECONFIG="$KUBEDIR/$1"
+
+	if [ ! -e $KUBECONFIG ]; then
+		echo "$KUBECONFIG does not exist"
+	else
+		export KUBECONFIG=$KUBECONFIG
+		echo "KUBECONFIG set to $1"
+	fi
 }
 
 herokuapp() {
