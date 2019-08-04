@@ -73,6 +73,7 @@ alias ..="cd .."
 alias dir="ls -lAG"
 alias cd..="cd .."
 alias kc="kubectl"
+alias k="kubectl"
 
 # Depends on the mood. repeats the last command with prepended "sudo"
 alias please='sudo $(fc -nl -1)'
@@ -174,20 +175,12 @@ awsprofile() {
 kubeconfig() {
 	local KUBEDIR="$HOME/.kube"
 
-	if [[ -z "$1" ]]; then
-		find $KUBEDIR -maxdepth 1 -type f | xargs basename
-		return 0
-	fi
-
-	KUBECONFIG="$KUBEDIR/$1"
-
-	if [ ! -e $KUBECONFIG ]; then
-		echo "$KUBECONFIG does not exist"
-	else
-		export KUBECONFIG=$KUBECONFIG
-		echo "KUBECONFIG set to $1"
-	fi
+	export KUBECONFIG=$(find $KUBEDIR -maxdepth 1 -type f -exec realpath {} \; | grep -v "kubectx$" | grep -v ".gitignore" | sort | paste -s -d: -)
+	echo "KUBECONFIG=$KUBECONFIG"
 }
+
+# Execute it right away
+kubeconfig >/dev/null
 
 herokuapp() {
 
@@ -256,8 +249,8 @@ export LSCOLORS=ExFxCxDxBxegedabagacad
 setopt no_rm_star_silent
 
 export NVM_DIR="$HOME/.nvm"
-  [ -s "/usr/local/opt/nvm/nvm.sh" ] && . "/usr/local/opt/nvm/nvm.sh"  # This loads nvm
-  [ -s "/usr/local/opt/nvm/etc/bash_completion" ] && . "/usr/local/opt/nvm/etc/bash_completion"  # This loads nvm bash_completion
+[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"                           # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && . "$NVM_DIR/bash_completion" # This loads nvm bash_completion
 
 export HOMEBREW_BREWFILE="/Users/ben/Dropbox (Personal)/config/Brewfile"
 
