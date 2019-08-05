@@ -180,9 +180,6 @@ kubeconfig() {
 }
 
 # Execute it right away
-cd ~/.kube
-git co 01_current
-cd ..
 kubeconfig >/dev/null
 
 herokuapp() {
