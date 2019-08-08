@@ -276,3 +276,7 @@ if [ -f '/Users/ben/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/ben/g
 alias giit='git'
 
 export GPG_TTY=$(tty)
+
+# Prevent auto update of homebrew
+export HOMEBREW_NO_AUTO_UPDATE=1
+
