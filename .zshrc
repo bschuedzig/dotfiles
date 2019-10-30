@@ -38,9 +38,9 @@ export HISTFILE=~/.zsh_history    # ensure history file visibility
 export HH_CONFIG=hicolor,keywords # get more colors
 bindkey -s "\C-r" "\eqhh\n"       # bind hh to Ctrl-r (for Vi mode check doc)
 
-export NNN_TMPFILE="/tmp/nnn"
-
 n() {
+        export NNN_TMPFILE=${XDG_CONFIG_HOME:-$HOME/.config}/nnn/.lastd
+
 	nnn "$@"
 
 	if [ -f $NNN_TMPFILE ]; then
@@ -70,7 +70,8 @@ zle -N accept-line _accept-line
 #
 
 alias ..="cd .."
-alias dir="ls -lAG"
+alias c="code ."
+alias dir="exa -la --git"
 alias cd..="cd .."
 alias kc="kubectl"
 alias k="kubectl"
@@ -80,6 +81,8 @@ alias please='sudo $(fc -nl -1)'
 alias fuck='sudo $(fc -nl -1)'
 
 alias pm2="node_modules/.bin/pm2"
+
+alias sed=gsed
 
 # Keep a list of all SSH targets in "~/.ssh_targets"
 function ssh_connect() {
@@ -119,6 +122,7 @@ alias ssh="ssh_connect"
 #  |_| /_/   \_\_| |_| |_|____/
 #
 
+export PATH="$PATH:/usr/local/opt/gnu-sed/libexec/gnubin"
 export PATH="$PATH:/usr/local/Cellar/solr/5.1.0/libexec/bin"
 export PATH="$PATH:/bin"
 export PATH="$PATH:/sbin"
@@ -129,13 +133,14 @@ export PATH="$PATH:/usr/local/sbin"
 export PATH="$PATH:/usr/local/bin"
 export PATH="$PATH:/usr/local/opt/inetutils/libexec/gnubin"
 export PATH="$PATH:/opt/X11/bin"
-export PATH="$PATH:/Users/ben/bin"
+export PATH="/Users/ben/bin:$PATH"
 export PATH="$PATH:/opt/etcher-cli"
 export PATH="$HOME/.yarn/bin:$PATH"
 export PATH="$PATH:/usr/local/opt/inetutils/libexec/gnubin"
 export PATH="$PATH:/Users/ben/Library/Android/sdk/platform-tools/"
 export PATH="$PATH:/Users/ben/Library/Android/sdk/emulator"
 export PATH="$PATH:/Users/ben/.local/bin"
+export PATH="$PATH:/Users/ben/.dotnet/tools"
 export GOOGLE_APPLICATION_CREDENTIALS="/Users/ben/.google/werkerapp.json"
 
 export GOPATH="$HOME/go"
@@ -248,10 +253,6 @@ export LSCOLORS=ExFxCxDxBxegedabagacad
 
 setopt no_rm_star_silent
 
-export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"                           # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && . "$NVM_DIR/bash_completion" # This loads nvm bash_completion
-
 export HOMEBREW_BREWFILE="/Users/ben/Dropbox (Personal)/config/Brewfile"
 
 if [ -f $(brew --prefix)/etc/brew-wrap ]; then
@@ -259,7 +260,7 @@ if [ -f $(brew --prefix)/etc/brew-wrap ]; then
 fi
 
 source ~/.zshrc.local
-export PYENV_VERSION=3.6.0
+export PYENV_VERSION=3.5.7
 eval "$(pyenv init -)"
 
 export LC_ALL=en_US.UTF-8
@@ -280,3 +281,10 @@ export GPG_TTY=$(tty)
 # Prevent auto update of homebrew
 export HOMEBREW_NO_AUTO_UPDATE=1
 
+
+export GO111MODULE=on
+alias cat="bat"
+
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
