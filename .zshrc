@@ -1,3 +1,5 @@
+#zmodload zsh/zprof
+
 #   ____  ____   ___  _____ ___ _     _____
 #  |  _ \|  _ \ / _ \|  ___|_ _| |   | ____|
 #  | |_) | |_) | | | | |_   | || |   |  _|
@@ -60,8 +62,6 @@ function _accept-line() {
 
 zle -N accept-line _accept-line
 
-#export JAVA_HOME=$(/usr/libexec/java_home)
-
 #      _    _     ___    _    ____  _____ ____
 #     / \  | |   |_ _|  / \  / ___|| ____/ ___|
 #    / _ \ | |    | |  / _ \ \___ \|  _| \___ \
@@ -71,7 +71,7 @@ zle -N accept-line _accept-line
 
 alias ..="cd .."
 alias c="code ."
-alias dir="exa -la --git"
+alias dir="exa -la"
 alias cd..="cd .."
 alias kc="kubectl"
 alias k="kubectl"
@@ -141,6 +141,7 @@ export PATH="$PATH:/Users/ben/Library/Android/sdk/platform-tools/"
 export PATH="$PATH:/Users/ben/Library/Android/sdk/emulator"
 export PATH="$PATH:/Users/ben/.local/bin"
 export PATH="$PATH:/Users/ben/.dotnet/tools"
+export PATH="$PATH:/Library/Apple/usr/bin"
 export GOOGLE_APPLICATION_CREDENTIALS="/Users/ben/.google/werkerapp.json"
 
 export GOPATH="$HOME/go"
@@ -160,6 +161,7 @@ export PATH="$PATH:/Users/ben/git/emscripten-core/emsdk:/Users/ben/git/emscripte
 #   \___/  |_| |___|_____|___| |_| |___|_____|____/
 #
 
+
 # Expects standard AWS configurations in ~/.aws
 # Lists all configurations (if invoked without parameter)
 # Will update AWS_PROFILE if invoked with a parameter
@@ -174,9 +176,9 @@ awsprofile() {
 		export AWS_PROFILE=$1
 		echo "AWS_PROFILE set to $1"
 	fi
-
 }
 
+# Combines all k8s configurations
 kubeconfig() {
 	local KUBEDIR="$HOME/.kube"
 
@@ -187,6 +189,8 @@ kubeconfig() {
 # Execute it right away
 kubeconfig >/dev/null
 
+
+# List all available heroku apps (and selects one of if a parameter is given)
 herokuapp() {
 
 	if [[ -z "$1" ]]; then
@@ -204,30 +208,26 @@ herokuapp() {
 	fi
 }
 
+
+# Alias
 herokuapps() {
 	herokuapp "$1"
 }
 
-dockerhost() {
-	if [[ -z "$1" ]]; then
-		echo DOCKER_HOST=$DOCKER_HOST
-		echo
-		echo "dockerhost <new-docker-host>"
-		echo
-	else
-		echo Setting DOCKER_HOST=$1
-		export DOCKER_HOST=$1
-	fi
-}
 
+
+# Navigate to the git root
 gitroot() {
 	cd $(git rev-parse --show-toplevel)
 }
 
+# Alias
 gt() {
 	cd $(git rev-parse --show-toplevel)
 }
 
+
+# Navigate to the folder that is currently open in the topmost finder window
 cdf() {
 
 	target=$(osascript -e 'tell application "Finder" to if (count of Finder windows) > 0 then get POSIX path of (target of front Finder window as text)')
@@ -238,6 +238,7 @@ cdf() {
 		echo 'No Finder window found' >&2
 	fi
 }
+
 
 #   _   _ _   _ ____   ___  ____ _____ _____ ____
 #  | | | | \ | / ___| / _ \|  _ \_   _| ____|  _ \
@@ -253,27 +254,32 @@ export LSCOLORS=ExFxCxDxBxegedabagacad
 
 setopt no_rm_star_silent
 
+# not really used currently
 export HOMEBREW_BREWFILE="/Users/ben/Dropbox (Personal)/config/Brewfile"
 
 if [ -f $(brew --prefix)/etc/brew-wrap ]; then
 	source $(brew --prefix)/etc/brew-wrap
 fi
 
+# load some secret sauce
 source ~/.zshrc.local
+
+# load python
 export PYENV_VERSION=3.5.7
 eval "$(pyenv init -)"
+
 
 export LC_ALL=en_US.UTF-8
 export LANG=en_US.UTF-8
 
-[ -s "/Users/ben/.jabba/jabba.sh" ] && source "/Users/ben/.jabba/jabba.sh"
 
 # The next line updates PATH for the Google Cloud SDK.
-if [ -f '/Users/ben/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/ben/google-cloud-sdk/path.zsh.inc'; fi
+#if [ -f '/Users/ben/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/ben/google-cloud-sdk/path.zsh.inc'; fi
 
 # The next line enables shell command completion for gcloud.
-if [ -f '/Users/ben/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/ben/google-cloud-sdk/completion.zsh.inc'; fi
+#if [ -f '/Users/ben/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/ben/google-cloud-sdk/completion.zsh.inc'; fi
 
+# Broken keyboard
 alias giit='git'
 
 export GPG_TTY=$(tty)
@@ -281,13 +287,67 @@ export GPG_TTY=$(tty)
 # Prevent auto update of homebrew
 export HOMEBREW_NO_AUTO_UPDATE=1
 
-
 export GO111MODULE=on
+
+# bat is just better :)
 alias cat="bat"
 
+
+load_jabba() {
+  unset -f java
+  unset -f jabba
+  [ -s "$HOME/.jabba/jabba.sh" ] && source "$HOME/.jabba/jabba.sh"
+}
+
+jabba() {
+  load_jabba
+  jabba "$@"
+}
+
+java() {
+  load_jabba
+  jabba "$@"
+}
+
+
+
 export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+
+load_nvm() {
+    unset -f nvm
+    unset -f node
+    unset -f npm
+    unset -f yarn
+    [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm
+    [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+}
+
+nvm() {
+    load_nvm
+    nvm "$@"
+}
+
+node() {
+    load_nvm
+    node "$@"
+}
+
+npm() {
+    load_nvm
+    npm "$@"
+}
+
+yarn() {
+    load_nvm
+    yarn "$@"
+}
+
+
+#[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 
 # use bat for man pages
 export MANPAGER="sh -c 'col -bx | bat -l man -p'"
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+#zprof
