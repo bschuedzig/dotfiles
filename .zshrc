@@ -41,7 +41,7 @@ export HH_CONFIG=hicolor,keywords # get more colors
 bindkey -s "\C-r" "\eqhh\n"       # bind hh to Ctrl-r (for Vi mode check doc)
 
 n() {
-        export NNN_TMPFILE=${XDG_CONFIG_HOME:-$HOME/.config}/nnn/.lastd
+	export NNN_TMPFILE=${XDG_CONFIG_HOME:-$HOME/.config}/nnn/.lastd
 
 	nnn "$@"
 
@@ -83,6 +83,27 @@ alias fuck='sudo $(fc -nl -1)'
 alias pm2="node_modules/.bin/pm2"
 
 alias sed=gsed
+
+function rider_autoopen() {
+
+	RIDER="/Users/ben/bin/rider"
+
+	if [[ "$#" -ne 0 ]]; then
+		# just forward to the real rider command
+		"$RIDER" "$@"
+	else
+
+		FILES="$(find . -maxdepth 1 -name '*.sln' -print)"
+
+		if [[ -z "$FILES" ]]; then
+			echo "No .sln files found in current directory"
+		else
+			find . -maxdepth 1 -name '*.sln' -exec "$RIDER" {} \;
+		fi
+	fi
+}
+
+alias rider="rider_autoopen"
 
 # Keep a list of all SSH targets in "~/.ssh_targets"
 function ssh_connect() {
@@ -142,6 +163,7 @@ export PATH="$PATH:/Users/ben/Library/Android/sdk/emulator"
 export PATH="$PATH:/Users/ben/.local/bin"
 export PATH="$PATH:/Users/ben/.dotnet/tools"
 export PATH="$PATH:/Library/Apple/usr/bin"
+export PATH="$PATH:/usr/local/Cellar/icu4c/64.2/bin"
 export GOOGLE_APPLICATION_CREDENTIALS="/Users/ben/.google/werkerapp.json"
 
 export GOPATH="$HOME/go"
@@ -160,7 +182,6 @@ export PATH="$PATH:/Users/ben/git/emscripten-core/emsdk:/Users/ben/git/emscripte
 #  | |_| | | |  | || |___ | |  | |  | || |___ ___) |
 #   \___/  |_| |___|_____|___| |_| |___|_____|____/
 #
-
 
 # Expects standard AWS configurations in ~/.aws
 # Lists all configurations (if invoked without parameter)
@@ -189,7 +210,6 @@ kubeconfig() {
 # Execute it right away
 kubeconfig >/dev/null
 
-
 # List all available heroku apps (and selects one of if a parameter is given)
 herokuapp() {
 
@@ -208,13 +228,10 @@ herokuapp() {
 	fi
 }
 
-
 # Alias
 herokuapps() {
 	herokuapp "$1"
 }
-
-
 
 # Navigate to the git root
 gitroot() {
@@ -225,7 +242,6 @@ gitroot() {
 gt() {
 	cd $(git rev-parse --show-toplevel)
 }
-
 
 # Navigate to the folder that is currently open in the topmost finder window
 cdf() {
@@ -238,7 +254,6 @@ cdf() {
 		echo 'No Finder window found' >&2
 	fi
 }
-
 
 #   _   _ _   _ ____   ___  ____ _____ _____ ____
 #  | | | | \ | / ___| / _ \|  _ \_   _| ____|  _ \
@@ -265,13 +280,11 @@ fi
 source ~/.zshrc.local
 
 # load python
-export PYENV_VERSION=3.5.7
+export PYENV_VERSION=3.8.2
 eval "$(pyenv init -)"
-
 
 export LC_ALL=en_US.UTF-8
 export LANG=en_US.UTF-8
-
 
 # The next line updates PATH for the Google Cloud SDK.
 #if [ -f '/Users/ben/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/ben/google-cloud-sdk/path.zsh.inc'; fi
@@ -286,62 +299,58 @@ export GPG_TTY=$(tty)
 
 # Prevent auto update of homebrew
 export HOMEBREW_NO_AUTO_UPDATE=1
-
+export DOTNET_CLI_TELEMETRY_OPTOUT=1
 export GO111MODULE=on
 
 # bat is just better :)
 alias cat="bat"
 
-
 load_jabba() {
-  unset -f java
-  unset -f jabba
-  [ -s "$HOME/.jabba/jabba.sh" ] && source "$HOME/.jabba/jabba.sh"
+	unset -f java
+	unset -f jabba
+	[ -s "$HOME/.jabba/jabba.sh" ] && source "$HOME/.jabba/jabba.sh"
 }
 
 jabba() {
-  load_jabba
-  jabba "$@"
+	load_jabba
+	jabba "$@"
 }
 
 java() {
-  load_jabba
-  jabba "$@"
+	load_jabba
+	jabba "$@"
 }
-
-
 
 export NVM_DIR="$HOME/.nvm"
 
 load_nvm() {
-    unset -f nvm
-    unset -f node
-    unset -f npm
-    unset -f yarn
-    [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm
-    [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+	unset -f nvm
+	unset -f node
+	unset -f npm
+	unset -f yarn
+	[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"                    # This loads nvm
+	[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion" # This loads nvm bash_completion
 }
 
 nvm() {
-    load_nvm
-    nvm "$@"
+	load_nvm
+	nvm "$@"
 }
 
 node() {
-    load_nvm
-    node "$@"
+	load_nvm
+	node "$@"
 }
 
 npm() {
-    load_nvm
-    npm "$@"
+	load_nvm
+	npm "$@"
 }
 
 yarn() {
-    load_nvm
-    yarn "$@"
+	load_nvm
+	yarn "$@"
 }
-
 
 #[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 
