@@ -214,9 +214,11 @@ doteam() {
 	if [ ! -e "$APP" ]; then
 		echo "$APP does not exist"
 	else
-		DIGITALOCEAN_ACCESS_TOKEN=$(cat "$APP")
+		DIGITALOCEAN_TEAM="$(basename "$APP")"
+		DIGITALOCEAN_ACCESS_TOKEN="$(cat "$APP")"
+		export DIGITALOCEAN_TEAM
 		export DIGITALOCEAN_ACCESS_TOKEN
-		echo "DIGITALOCEAN_ACCESS_TOKEN set to contents of $APP"
+		echo "DIGITALOCEAN_ACCESS_TOKEN set to $DIGITALOCEAN_TEAM"
 	fi
 }
 
