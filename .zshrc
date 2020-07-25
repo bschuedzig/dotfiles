@@ -168,6 +168,7 @@ export GOOGLE_APPLICATION_CREDENTIALS="/Users/ben/.google/werkerapp.json"
 
 export GOPATH="$HOME/go"
 export PATH="$PATH:$GOPATH/bin"
+export PATH="$PATH:/Users/ben/lib/flutter/bin"
 
 export ANDROID_HOME="/Users/ben/Library/Android/sdk"
 export ANDROID_TOOLS="/Users/ben/Library/Android/sdk/tools/"
@@ -196,6 +197,26 @@ awsprofile() {
 		[[ -z "$TEMP" ]] && echo "Profile does not exist" && return 1
 		export AWS_PROFILE=$1
 		echo "AWS_PROFILE set to $1"
+	fi
+}
+
+# Expects Digital Ocean Teams in ~/.doctl
+# Every file should just contain the key in plain text
+doteam() {
+
+	if [[ -z "$1" ]]; then
+		ls -1 ~/.doteam
+		return 0
+	fi
+
+	APP="$HOME/.doteam/$1"
+
+	if [ ! -e "$APP" ]; then
+		echo "$APP does not exist"
+	else
+		DIGITALOCEAN_ACCESS_TOKEN=$(cat "$APP")
+		export DIGITALOCEAN_ACCESS_TOKEN
+		echo "DIGITALOCEAN_ACCESS_TOKEN set to contents of $APP"
 	fi
 }
 
